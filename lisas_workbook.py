@@ -1,4 +1,7 @@
 """
+https://www.hackerrank.com/challenges/lisa-workbook/problem
+Difficulty: EASY
+
 Lisa just got a new math workbook.
 A workbook contains exercise problems, grouped into chapters.
 Lisa believes a problem to be special if:
