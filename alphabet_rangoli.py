@@ -84,17 +84,19 @@ import string
 
 def print_rangoli(size):
     letters = string.ascii_lowercase
+    delimiter = "-"
     lines = []
+
     for row in range(size):
-        line = "-".join(letters[row:size])
+        line = delimiter.join(letters[row:size])
         lines.append(line[::-1] + line[1:])
     width = len(lines[0])
 
     for row in range(size-1, -1, -1):
-        print(lines[row].center(width, "-"))
+        print(lines[row].center(width, delimiter))
 
     for row in range(1, size):
-        print(lines[row].center(width, "-"))
+        print(lines[row].center(width, delimiter))
 
 
 
