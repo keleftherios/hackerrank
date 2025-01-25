@@ -1,4 +1,7 @@
 """
+https://www.hackerrank.com/challenges/the-grid-search/problem
+Difficulty: MEDIUM
+
 Given an array of strings of digits, try to find the occurrence of a given pattern of digits.
 In the grid and pattern arrays, each string represents a row in the grid.
 For example, consider the following grid:
