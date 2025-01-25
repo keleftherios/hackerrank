@@ -138,7 +138,6 @@ This pattern is not found in the larger grid.
 """
 
 
-
 import math
 import os
 import random
@@ -156,6 +155,17 @@ import sys
 
 
 def gridSearch(G, P):
+    """
+    Function gets 1st pattern P[0] and finds all indexes that exist in the grid,
+    and stores them as tuples.
+    e.g: indexes = [(8, 4), (10, 8)]
+    1st value denotes pattern's grid row. e.g. G[8]
+    2nd value denotes pattern's grid index. e.g. G[8][4]
+
+    After getting all 1st pattern's grid-row & gird-indexes,
+    function will search for all remaining patterns (P[1:])
+    starting at gird-row & grid-index tuple.
+    """
 
     R, C = len(G), len(G[0])
     r, c = len(P), len(P[0])
@@ -168,6 +178,8 @@ def gridSearch(G, P):
         for gcol in range(C - c + 1):
             grid_search = grid[gcol:gcol + c]
 
+            # If length of grid_search is less that pattern's length,
+            # skip and save some process time.
             if len(grid_search) < c:
                 continue
 
@@ -176,7 +188,7 @@ def gridSearch(G, P):
                 indexes.append((grid_row, grid_index))
 
     if indexes:
-        # print(f"INDEXES: {indexes}")
+        # print(f"indexes = {indexes}")
         count = 1
         for pattern in P[1:]:
             for grid_row, grid_index in indexes:
@@ -208,15 +220,20 @@ if __name__ == '__main__':
 
     # Expected result: NO (!!!)
     # This is because the pattern "12" starts at index "0", where pattern "21" starts at index "2".
-    # In order to be a "YES", the two indexes should match (0 != 2)!!! E.g. grid = ["1234", "2134", "9999", "9999"]
+    # In order to be a "YES", the two indexes should match (0 != 2)!!! E.g. grid = ["1234", "2134", "9999", "9999"].
     G3 = ["1234", "4321", "9999", "9999"]
     P3 = ["12", "21"]
 
     # Expected result: YES
-    # This is because pattern "12" is found at two places in 1st grid row: at index "0-1" and at index "4-5"
+    # This is because pattern "12" is found at two places in 1st grid (G4[0]): at index "0-1" (G4[0][:2]).
+    # and at index "4-5 (G4[0][4:6])."
+    # Function must be able to see that the pattern is at the 2nd index (G4[0][4:6]).
     G4 = ["123412", "561212", "123634", "781288"]
     P4 = ["12", "12"]
 
+    # Expected result: YES
+    # Same as above, but now function must be able to see that the pattern is not in the 1st grid (G5[0]),
+    # but in the 2nd grid (G5[1], in the 1'st index (G5[1][2:4]).
     G5 = ["123412", "561212", "123634", "781288"]
     P5 = ["12", "36"]
 
@@ -234,39 +251,44 @@ if __name__ == '__main__':
 
     data = []
     input_file = "test5_the_grid_search.txt"
-    with open(input_file, "r") as f:
-        for line in f:
-            data.append(line.rstrip())
+    try:
+        with open(input_file, "r") as f:
+            for line in f:
+                data.append(line.rstrip())
 
-    number_of_tests = data[0]
+        number_of_tests = data[0]
 
-    C = R = c = r = 0
-    start, end  = 1, 0
-    for test, expected_result in enumerate(["YES", "YES", "NO", "YES", "NO"], start=1):
-        print(f"TEST: {test}")
-        C, R = data[start].split()
-        print(f"C: {C} --- R: {R}")
-        start += 1
-        end = start + int(C)
-        print(f"G[{start}:{end}]")
-        G = data[start:end]
-        start = end
-        c, r = data[start].split()
-        print(f"c: {c} --- r: {r}")
-        start += 1
-        end = start + int(c)
-        print(f"P[{start}:{end}]")
-        P = data[start:end]
-        result = gridSearch(G, P)
-        print(f"result = {result} --- Expected Result = {expected_result}")
-        start = end
-        end = start
-        print()
+        start = 1
+        for test, expected_result in enumerate(["YES", "YES", "NO", "YES", "NO"], start=1):
 
-        assert result == expected_result, f"Wrong answer for test: {test}"
+            # Get the grid variables
+            print(f"TEST: {test}")
+            C, R = data[start].split()
+            print(f"C: {C} --- R: {R}")
+            start += 1
+            end = start + int(C)
+            print(f"G[{start}:{end}]")
+            G = data[start:end]
 
-    grid = data[3762:4762]
-    pattern = data[4763:4767]
+            # Get the pattern variables
+            start = end
+            c, r = data[start].split()
+            print(f"c: {c} --- r: {r}")
+            start += 1
+            end = start + int(c)
+            print(f"P[{start}:{end}]")
+            P = data[start:end]
 
+            # Check the results.
+            result = gridSearch(G, P)
+            print(f"result = {result} --- Expected Result = {expected_result}")
+            start = end
+            end = start
+            print()
+
+            assert result == expected_result, f"Wrong answer for test: {test}"
+
+    except FileNotFoundError:
+        print(f"File {input_file} not found...")
 
 
