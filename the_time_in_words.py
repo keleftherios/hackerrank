@@ -83,7 +83,7 @@ def timeInWords(h: int, m: int):
     if not isinstance(m, int):
         m = int(m)
 
-    #
+    # Define clock_numbers dictionary
     clock_numbers = {0: "o' clock",
                      1: "one",
                      2: "two",
