@@ -153,7 +153,7 @@ def check_function_timeInWords(h, m, expected_time_in_words_string):
     hour_str = str(h)
     min_str = str(m) + str(m) if not m else str(m)
     print(f"{hour_str}:{min_str} = {result}")
-    assert result == expected_time_in_words_string, f"result = {result} vs exp_result ={expected_time_in_words_string}"
+    assert result == expected_time_in_words_string, f"result = {result} vs exp_result = {expected_time_in_words_string}"
 
 
 if __name__ == '__main__':
