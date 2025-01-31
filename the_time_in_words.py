@@ -75,12 +75,15 @@ def timeInWords(h: int, m: int):
     Solution for the time_in_words'
     """
 
+    # Check if h is int or not
     if not isinstance(h, int):
         h = int(h)
 
+    # Check if m is int or not
     if not isinstance(m, int):
         m = int(m)
 
+    #
     clock_numbers = {0: "o' clock",
                      1: "one",
                      2: "two",
@@ -104,8 +107,11 @@ def timeInWords(h: int, m: int):
                      20: "twenty",
                      30: "half"}
 
+    # Define 'minutes' or 'minute' word
     word_for_minutes = 'minutes' if m != 1 else 'minute'
 
+    # Variable definition according to 'm'
+    # ('m' is always going to be in the range of 0 <= m <= 30)
     if m > 30:
         m = 60 - m
         h += 1
@@ -113,13 +119,22 @@ def timeInWords(h: int, m: int):
     else:
         relation = 'past'
 
+    # Define hours
     hours = clock_numbers[h]
 
+    # Check in 'm' is in the dictionary 'clock_numbers' or not and define minutes
     if 20 < m < 30:
         minutes = f"{clock_numbers[20]} {clock_numbers[m % 20]}"
     else:
         minutes = clock_numbers[m]
 
+    # (same as above block, but perhaps not so clear)
+    # try:
+    #     minutes = clock_numbers[m]
+    # except KeyError:
+    #     minutes = f"{clock_numbers[20]} {clock_numbers[m % 20]}"
+
+    # Final logic
     if not m:
         time_in_words = f"{hours} {minutes}"
     else:
@@ -130,46 +145,57 @@ def timeInWords(h: int, m: int):
     return time_in_words
 
 
+def check_function_timeInWords(h, m, expected_time_in_words_string):
+    """
+    Function to easily check the results of timeInWords
+    """
+    result = timeInWords(h, m)
+    hour_str = str(h)
+    min_str = str(m) + str(m) if not m else str(m)
+    print(f"{hour_str}:{min_str} = {result}")
+    assert result == expected_time_in_words_string, f"result = {result} vs exp_result ={expected_time_in_words_string}"
+
 if __name__ == '__main__':
 
     # Test_1:
-    test1 = (5, 47)
-    result1 = timeInWords(*test1)
-    print(f"{test1[0]}:{test1[1]} = {result1}")
-    assert result1 == "thirteen minutes to six", "Wrong answer for test1... "
+    check_function_timeInWords(5, 47, "thirteen minutes to six")
 
     # Test_2:
-    test2 = (3, 00)
-    result2 = timeInWords(*test2)
-    print(f"{test2[0]}:{test2[1]} = {result2}")
-    assert result2 == "three o' clock", "Wrong answer for test2... "
+    check_function_timeInWords(3, 00, "three o' clock")
 
     # Test_3:
-    test3 = (7, 15)
-    result3 = timeInWords(*test3)
-    print(f"{test3[0]}:{test3[1]} = {result3}")
-    assert result3 == "quarter past seven", "Wrong answer for test3... "
+    check_function_timeInWords(7, 15, "quarter past seven")
 
     # Test_4:
-    test4 = (5, 28)
-    result4 = timeInWords(*test4)
-    print(f"{test4[0]}:{test4[1]} = {result4}")
-    assert result4 == "twenty eight minutes past five", "Wrong answer for test4..."
+    check_function_timeInWords(5, 28, "twenty eight minutes past five")
 
     # Test_5
-    test5 = (5, 45)
-    result5 = timeInWords(*test5)
-    print(f"{test5[0]}:{test5[1]} = {result5}")
-    assert result5 == "quarter to six", "Wrong answer for test5..."
+    check_function_timeInWords(5, 45, "quarter to six")
 
     # Test_6
-    test6 = (5, 30)
-    result6 = timeInWords(*test6)
-    print(f"{test6[0]}:{test6[1]} = {result6}")
-    assert result6 == "half past five", "Wrong answer for test6..."
+    check_function_timeInWords(5, 30, "half past five")
 
-    # Test_7
-    test7 = (5, 40)
-    result7 = timeInWords(*test7)
-    print(f"{test7[0]}:{test7[1]} = {result7}")
-    assert result7 == "twenty minutes to six", "Wrong answer for test7..."
+    # Test_7:
+    check_function_timeInWords(5, 29, "twenty nine minutes past five")
+
+    # Test_8:
+    check_function_timeInWords(5, 31, "twenty nine minutes to six")
+
+    # Test_9
+    check_function_timeInWords(5, 40, "twenty minutes to six")
+
+    # Test_10
+    check_function_timeInWords(5, 39, "twenty one minutes to six")
+
+    # Test_11
+    check_function_timeInWords(5, 41, "nineteen minutes to six")
+
+    # Test_12:
+    check_function_timeInWords(5, 20, "twenty minutes past five")
+
+    # Test_13:
+    check_function_timeInWords(5, 19, "nineteen minutes past five")
+
+    # Test_14:
+    check_function_timeInWords(5, 21, "twenty one minutes past five")
+
