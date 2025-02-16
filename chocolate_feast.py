@@ -87,7 +87,7 @@ import sys
 #  3. INTEGER m
 #
 
-def chocolateFeast_v1(n, c, m):
+def chocolateFeast(n, c, m):
     """
     First solution on chocolate_feast.
     Solution passed all the tests.
@@ -142,11 +142,13 @@ if __name__ == '__main__':
     tests = [test1, test2, test3, test4]
     expected_results = [9, 6, 3, 5]
 
-    functions_under_test = [chocolateFeast_v1, chocolateFeast_v2, chocolateFeast_v3]
+    functions_under_test = [chocolateFeast, chocolateFeast_v2, chocolateFeast_v3]
+
+    max_length = max(list(map(lambda f: len(f.__name__), functions_under_test)))
 
     for test, expected_result in zip(tests, expected_results):
         for function in functions_under_test:
             result = function(*test)
             assert result == expected_result, f"{result} vs {expected_result}"
-            print(f"function: {function.__name__:<17} | result: {result} | PASS |")
+            print(f"function: {function.__name__:<{max_length}} | result: {result} | PASS |")
         print()
